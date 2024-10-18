@@ -1,0 +1,67 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.addContext {
+  margin-bottom: 2rem;
+}
+
+.addContext input,
+.addContext textarea {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+}
+
+.addContext button {
+  padding: 0.5rem 1rem;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.contextList {
+  display: grid;
+  gap: 1rem;
+}
+
+.contextItem {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.contextItem h3 {
+  margin-top: 0;
+}
+
+.contextItem button {
+  margin-right: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.contextItem button:last-child {
+  background-color: #ff4040;
+}
+
+.error {
+  color: red;
+  margin-bottom: 1rem;
+}
+
+.loading {
+  font-style: italic;
+  color: #666;
+}

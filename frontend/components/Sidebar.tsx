@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styles from '@/styles/Sidebar.module.css';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 const Sidebar: React.FC = () => {
   const router = useRouter();
@@ -19,6 +20,9 @@ const Sidebar: React.FC = () => {
         </li>
         <li className={isActive('/health') ? styles.active : ''}>
           <Link href="/health">Health Status</Link>
+        </li>
+        <li className={isActive('/context') ? styles.active : ''}>
+          <Link href="/context">Context Management</Link>
         </li>
       </ul>
     </nav>
