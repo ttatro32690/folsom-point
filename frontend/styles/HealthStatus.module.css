@@ -1,0 +1,42 @@
+.container {
+  font-family: Arial, sans-serif;
+}
+
+.title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.status {
+  margin-bottom: 1rem;
+}
+
+.statusTitle {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.connected {
+  color: green;
+}
+
+.error {
+  color: red;
+}
+
+.initializing {
+  color: orange;
+}
+
+.loading {
+  color: #666;
+}
+
+.detailsList {
+  list-style-type: none;
+  padding: 0;
+}
+
+.detailsItem {
+  margin-bottom: 0.25rem;
+}

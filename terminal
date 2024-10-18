@@ -9,9 +9,15 @@ cd frontend
 mkdir -p components styles
 touch styles/globals.css styles/Home.module.css
 
+docker-compose down
 docker-compose up --build
 
 mkdir -p backend/app/health
 touch backend/app/health/__init__.py
 touch backend/app/health/router.py
 touch backend/app/health/service.py
+
+cd frontend
+npm install axios
+
+

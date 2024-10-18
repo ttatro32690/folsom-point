@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from elasticsearch import Elasticsearch
+from sqlalchemy.exc import OperationalError
 
 def get_health_status(db: Session, es: Elasticsearch):
     status_info = {
@@ -18,6 +19,13 @@ def get_health_status(db: Session, es: Elasticsearch):
         db.execute("SELECT 1")
         status_info["database"]["status"] = "connected"
         status_info["database"]["details"] = "Successfully connected to the database"
+    except OperationalError as e:
+        if "the database system is starting up" in str(e):
+            status_info["database"]["status"] = "initializing"
+            status_info["database"]["details"] = "Database is still initializing"
+        else:
+            status_info["database"]["status"] = "error"
+            status_info["database"]["details"] = f"Failed to connect to the database: {str(e)}"
     except Exception as e:
         status_info["database"]["status"] = "error"
         status_info["database"]["details"] = f"Failed to connect to the database: {str(e)}"
