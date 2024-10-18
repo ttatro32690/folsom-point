@@ -64,3 +64,13 @@ The frontend uses TypeScript for improved developer experience and type safety. 
 ## Testing
 
 Run backend tests using pytest:
+
+## Ollama
+
+
+To pull the latest model from Ollama, run the following command:
+```
+docker exec -it ollama ./ollama pull llama3.2
+```
+
+All other commands can be run with docker following the (README.md)[https://github.com/ollama/ollama/blob/main/README.md]:
