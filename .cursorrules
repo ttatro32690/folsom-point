@@ -1,0 +1,243 @@
+# .cursor
+
+# Project: AI-Enabled Agent Platform
+
+# Overview:
+# This project is an AI-enabled agent platform developed with the following technologies:
+# - Backend: Python, FastAPI, PyTorch, Hugging Face Transformers, LangChain, Elasticsearch
+# - Frontend: Next.js (React.js framework)
+# - Databases: PostgreSQL, MongoDB
+# - Containerization: Docker
+# - Development Environment: Local development leveraging Ollama
+# - Note: No cloud infrastructure is involved at this stage
+
+rules:
+  - description: |
+      **General Coding Standards**
+      - Write clean, readable, and maintainable code.
+      - Use meaningful variable and function names.
+      - Include comments and docstrings where necessary.
+      - Adhere to DRY (Don't Repeat Yourself) principles.
+      - Implement proper error handling and logging.
+    when: always
+    then:
+      - enforce_pep8: true
+      - enforce_type_hints: true
+      - use_black_formatter: true
+      - use_isort_imports: true
+
+  - description: |
+      **Python Backend Development with FastAPI**
+      - Use FastAPI for building the backend API.
+      - Organize code into routers, models, services, and utils modules.
+      - Utilize Pydantic models for data validation.
+      - Implement asynchronous programming with `async` and `await`.
+      - Ensure all endpoints have proper HTTP methods and status codes.
+    when: file.endswith('.py')
+    then:
+      - use_fastapi: true
+      - use_pydantic_models: true
+      - enforce_async_functions: true
+      - document_endpoints_with_openapi: true
+
+  - description: |
+      **Machine Learning Integration**
+      - Use PyTorch and Hugging Face Transformers for model implementation.
+      - Load models efficiently and handle large models appropriately.
+      - Implement caching mechanisms for model inference if necessary.
+    when: file.contains('from transformers') or file.contains('import torch')
+    then:
+      - ensure_model_efficiency: true
+      - avoid_reloading_models_unnecessarily: true
+      - document_model_usage: true
+
+  - description: |
+      **Retrieval-Augmented Generation (RAG) with LangChain and Elasticsearch**
+      - Use LangChain for implementing RAG workflows.
+      - Connect to Elasticsearch for vector storage and retrieval.
+      - Ensure embeddings are generated using Hugging Face models.
+      - Optimize Elasticsearch indices for efficient searches.
+    when: file.contains('from langchain') or file.contains('from elasticsearch')
+    then:
+      - use_langchain_retrievers: true
+      - manage_elasticsearch_indices: true
+      - document_rag_processes: true
+
+  - description: |
+      **Database Interactions**
+      - Use PostgreSQL for structured data and MongoDB for unstructured data.
+      - Interact with PostgreSQL using `psycopg2` or `asyncpg`.
+      - Interact with MongoDB using `pymongo` or `motor` for async operations.
+      - Use parameterized queries to prevent SQL injection.
+      - Implement proper indexing for database optimization.
+    when: file.contains('psycopg2') or file.contains('pymongo')
+    then:
+      - enforce_parameterized_queries: true
+      - ensure_async_database_calls: true
+      - document_database_schemas: true
+
+  - description: |
+      **Frontend Development with Next.js**
+      - Use functional React components and React Hooks.
+      - Implement server-side rendering (SSR) where appropriate.
+      - Use Next.js API routes for any serverless functions.
+      - Style components using CSS Modules or styled-components.
+      - Ensure responsiveness and accessibility in UI design.
+    when: file.endswith('.js') or file.endswith('.jsx')
+    then:
+      - use_functional_components: true
+      - use_react_hooks: true
+      - adhere_to_nextjs_conventions: true
+      - implement_responsive_design: true
+
+  - description: |
+      **Containerization with Docker**
+      - Write efficient Dockerfiles for backend and frontend services.
+      - Use multi-stage builds to reduce image sizes.
+      - Define services in `docker-compose.yml` with appropriate dependencies.
+      - Expose necessary ports and set environment variables securely.
+    when: file.endswith('Dockerfile') or file == 'docker-compose.yml'
+    then:
+      - optimize_dockerfile_layers: true
+      - use_docker_compose_version_3: true
+      - document_docker_commands: true
+
+  - description: |
+      **Local Development with Ollama**
+      - Configure Ollama for local model management.
+      - Ensure compatibility between Ollama and PyTorch models.
+      - Document any specific setup required for Ollama.
+    when: file.contains('ollama') or file == 'README.md'
+    then:
+      - provide_ollama_configuration: true
+      - document_local_setup_steps: true
+
+  - description: |
+      **Testing and Quality Assurance**
+      - Write unit tests for all critical functions using Pytest.
+      - Achieve high code coverage.
+      - Use Jest and React Testing Library for frontend testing.
+      - Implement continuous integration workflows if possible.
+    when: file.startswith('test_') or file.endswith('_test.py') or file == 'pytest.ini'
+    then:
+      - write_comprehensive_tests: true
+      - use_mocking_where_appropriate: true
+      - document_test_cases: true
+
+  - description: |
+      **Security Best Practices**
+      - Do not hardcode secrets or sensitive information.
+      - Use environment variables and `.env` files for configuration.
+      - Validate and sanitize all user inputs.
+      - Protect against common vulnerabilities (e.g., injection attacks, XSS).
+    when: always
+    then:
+      - enforce_input_validation: true
+      - avoid_hardcoding_secrets: true
+      - use_secure_coding_practices: true
+
+  - description: |
+      **Documentation and Comments**
+      - Write clear and concise docstrings for all modules, classes, and functions.
+      - Use Google Style or reStructuredText for docstrings.
+      - Maintain an up-to-date `README.md` with setup instructions.
+      - Comment complex logic and algorithms within the code.
+    when: always
+    then:
+      - include_docstrings: true
+      - keep_readme_updated: true
+      - write_meaningful_comments: true
+
+  - description: |
+      **Version Control and Collaboration**
+      - Use Git for version control.
+      - Follow a consistent branching strategy (e.g., Git Flow).
+      - Write descriptive commit messages.
+      - Use `.gitignore` to exclude unnecessary files.
+    when: file == '.gitignore' or file == 'README.md'
+    then:
+      - maintain_clean_repository: true
+      - document_branching_strategy: true
+      - enforce_commit_message_guidelines: true
+
+  - description: |
+      **Configuration and Dependency Management**
+      - Pin dependencies in `requirements.txt` and `package.json`.
+      - Use virtual environments for Python dependencies.
+      - Keep Docker images and dependencies up to date.
+      - Document any manual steps required for setup.
+    when: file == 'requirements.txt' or file == 'environment.yml' or file == 'package.json'
+    then:
+      - specify_dependency_versions: true
+      - avoid_deprecated_packages: true
+      - document_dependency_updates: true
+
+  - description: |
+      **Logging and Monitoring**
+      - Use the `logging` module for backend logging.
+      - Log at appropriate levels (DEBUG, INFO, WARNING, ERROR, CRITICAL).
+      - Avoid logging sensitive information.
+      - Plan for integrating monitoring tools in the future.
+    when: file.contains('import logging')
+    then:
+      - configure_logging_properly: true
+      - set_up_log_rotation_if_needed: true
+      - document_logging_setup: true
+
+  - description: |
+      **Error Handling**
+      - Implement try-except blocks where exceptions might occur.
+      - Raise custom exceptions where appropriate.
+      - Provide meaningful error messages to the user.
+      - Ensure the application fails gracefully.
+    when: always
+    then:
+      - handle_exceptions_gracefully: true
+      - avoid_silent_failures: true
+      - document_error_responses: true
+
+  - description: |
+      **Performance Optimization**
+      - Write efficient algorithms and data structures.
+      - Optimize database queries and indexing.
+      - Use caching strategies where beneficial.
+      - Profile and benchmark critical sections of the code.
+    when: always
+    then:
+      - prioritize_code_efficiency: true
+      - avoid_unnecessary_computations: true
+      - document_performance_considerations: true
+
+  - description: |
+      **Future Scalability**
+      - Write code that is scalable and maintainable.
+      - Keep cloud integration in mind for future developments.
+      - Use design patterns that facilitate scalability.
+      - Ensure the codebase is modular.
+    when: always
+    then:
+      - design_for_scalability: true
+      - use_modular_architecture: true
+      - document_scalability_plans: true
+
+  - description: |
+      **Compliance with Licensing**
+      - Ensure all third-party libraries and code comply with their licenses.
+      - Document any licenses that require attribution.
+      - Avoid using libraries with incompatible licenses.
+    when: always
+    then:
+      - check_third_party_licenses: true
+      - include_license_files: true
+      - document_license_requirements: true
+
+  - description: |
+      **Internationalization and Localization**
+      - Structure the frontend to support multiple languages in the future.
+      - Use localization libraries or frameworks if applicable.
+      - Avoid hardcoding text; use constants or resource files.
+    when: file.endswith('.js') or file.endswith('.jsx')
+    then:
+      - prepare_for_internationalization: true
+      - externalize_user_facing_strings: true
+      - document_i18n

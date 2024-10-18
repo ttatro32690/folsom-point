@@ -1,0 +1,12 @@
+mkdir -p backend/app/api backend/app/core backend/app/models backend/app/services backend/tests
+mkdir -p frontend/components frontend/pages frontend/public frontend/styles
+touch backend/app/main.py backend/Dockerfile frontend/Dockerfile
+touch requirements.txt docker-compose.yml .gitignore
+
+npx create-next-app@latest frontend --typescript
+cd frontend
+
+mkdir -p components styles
+touch styles/globals.css styles/Home.module.css
+
+docker-compose up --build
