@@ -2,8 +2,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100%;
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding: 2rem;
 }
 
 .main {
@@ -34,6 +35,7 @@
   font-size: 1.2rem;
   text-align: center;
   color: #666;
+  margin-bottom: 2rem;
 }
 
 .code {

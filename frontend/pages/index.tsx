@@ -1,4 +1,5 @@
 import styles from '@/styles/Home.module.css'
+import OllamaInterface from '@/components/OllamaInterface'
 
 export default function Home() {
   return (
@@ -7,6 +8,7 @@ export default function Home() {
       <p className={styles.description}>
         Empowering AI agents with advanced capabilities
       </p>
+      <OllamaInterface />
     </div>
   )
 }

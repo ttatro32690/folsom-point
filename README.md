@@ -70,7 +70,7 @@ Run backend tests using pytest:
 
 To pull the latest model from Ollama, run the following command:
 ```
-docker exec -it ollama ./ollama pull llama3.2
+docker-compose exec ollama ollama pull llama2
 ```
 
 All other commands can be run with docker following the (README.md)[https://github.com/ollama/ollama/blob/main/README.md]:
