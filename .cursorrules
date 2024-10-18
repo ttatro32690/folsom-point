@@ -13,6 +13,19 @@
 
 rules:
   - description: |
+      ** File Structure and Naming Conventions**
+      - Place each component (backend, frontend, database) in its own directory.
+      - Use meaningful and descriptive names for directories and files.
+      - Follow a consistent naming scheme for functions, variables, and classes.
+      - Follow current file structure and avoid duplication of files and directories.
+    when: always
+    then:
+      - enforce_file_structure: true
+      - use_descriptive_names: true
+      - enforce_naming_conventions: true
+      - avoid_duplication: true
+rules:
+  - description: |
       **General Coding Standards**
       - Write clean, readable, and maintainable code.
       - Use meaningful variable and function names.

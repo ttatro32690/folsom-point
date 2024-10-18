@@ -13,11 +13,13 @@ services:
       - DATABASE_URL=postgresql://ai_agent_user:secure_password@db:5432/ai_agent_db
       - MONGODB_URL=mongodb://mongo:27017/
       - ELASTICSEARCH_URL=http://elasticsearch:9200
-    command: sh -c "while ! nc -z db 5432 && ! nc -z elasticsearch 9200; do sleep 1; done; uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+      - OLLAMA_HOST=http://ollama:11434
+    command: sh -c "while ! nc -z db 5432 && ! nc -z elasticsearch 9200 && ! nc -z ollama 11434; do sleep 1; done; uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
     depends_on:
       - db
       - mongo
       - elasticsearch
+      - ollama
 
   frontend:
     build:
@@ -59,7 +61,17 @@ services:
     ports:
       - "9200:9200"
 
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+
 volumes:
   postgres_data:
   mongo_data:
   elasticsearch_data:
+  ollama_data:
