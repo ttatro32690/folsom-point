@@ -6,9 +6,13 @@ WORKDIR /app
 
 # Copy the current directory contents into the container at /app
 COPY requirements.txt .
+COPY .env .
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
+
+# Add this line to install netcat
+RUN apt-get update && apt-get install -y netcat-openbsd
 
 # Make port 8000 available to the world outside this container
 EXPOSE 8000

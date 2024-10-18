@@ -1,5 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy.orm import Session
+from .db.database import get_db
 
 app = FastAPI(title="AI-Enabled Agent Platform")
 
@@ -15,6 +17,15 @@ app.add_middleware(
 @app.get("/")
 async def root():
     return {"message": "Welcome to the AI-Enabled Agent Platform"}
+
+@app.get("/db-test")
+def test_db(db: Session = Depends(get_db)):
+    try:
+        # Try to execute a simple query
+        db.execute("SELECT 1")
+        return {"message": "Successfully connected to the database"}
+    except Exception as e:
+        return {"message": f"Failed to connect to the database: {str(e)}"}
 
 if __name__ == "__main__":
     import uvicorn

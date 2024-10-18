@@ -13,7 +13,7 @@ services:
       - DATABASE_URL=postgresql://ai_agent_user:secure_password@db:5432/ai_agent_db
       - MONGODB_URL=mongodb://mongo:27017/
       - ELASTICSEARCH_URL=http://elasticsearch:9200
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    command: sh -c "while ! nc -z db 5432; do sleep 1; done; uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
     depends_on:
       - db
       - mongo
