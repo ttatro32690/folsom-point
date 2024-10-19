@@ -10,10 +10,17 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "next": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "axios": "^0.27.2"
+    "next": "14.2.15",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "axios": "^1.7.7",
+    "@mui/material": "^6.1.4",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "11.13.0",
+    "@mui/icons-material": "6.1.4",
+    "@mui/material-nextjs": "6.1.4",
+    "@emotion/cache": "11.13.1",
+    "@emotion/server": "11.11.0"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",

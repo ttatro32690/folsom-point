@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import styles from '@/styles/HealthStatus.module.css';
+import { Card, CardContent, Typography, Grid, CircularProgress, Alert } from '@mui/material';
+import StorageIcon from '@mui/icons-material/Storage';
+import ElectricalServicesIcon from '@mui/icons-material/ElectricalServices';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 interface HealthStatus {
   database: {
     status: string;
-    details: string | null;
+    details: string;
   };
   elasticsearch: {
     status: string;
@@ -14,7 +18,7 @@ interface HealthStatus {
       status: string;
       number_of_nodes: number;
       active_primary_shards: number;
-    } | null;
+    };
   };
 }
 
@@ -36,40 +40,57 @@ const HealthStatus: React.FC = () => {
     };
 
     fetchHealthStatus();
-    const interval = setInterval(fetchHealthStatus, 300000);
+    const interval = setInterval(fetchHealthStatus, 300000); // 5 minutes
 
     return () => clearInterval(interval);
   }, []);
 
-  if (loading) return <div className={styles.loading}>Loading health status...</div>;
-  if (error) return <div className={styles.error}>Error: {error}</div>;
+  if (loading) return <CircularProgress />;
+  if (error) return <Alert severity="error">{error}</Alert>;
   if (!health) return null;
 
   return (
-    <div className={styles.container}>
-      <h2 className={styles.title}>System Health</h2>
-      <div className={styles.status}>
-        <h3 className={styles.statusTitle}>Database</h3>
-        <p className={styles[health.database.status]}>{health.database.status}</p>
-        {health.database.status === 'initializing' ? (
-          <p>Database is still initializing. Please wait...</p>
-        ) : (
-          <p>{health.database.details}</p>
-        )}
-      </div>
-      <div className={styles.status}>
-        <h3 className={styles.statusTitle}>Elasticsearch</h3>
-        <p className={styles[health.elasticsearch.status]}>{health.elasticsearch.status}</p>
-        {health.elasticsearch.details && (
-          <ul className={styles.detailsList}>
-            <li className={styles.detailsItem}>Cluster: {health.elasticsearch.details.cluster_name}</li>
-            <li className={styles.detailsItem}>Status: {health.elasticsearch.details.status}</li>
-            <li className={styles.detailsItem}>Nodes: {health.elasticsearch.details.number_of_nodes}</li>
-            <li className={styles.detailsItem}>Shards: {health.elasticsearch.details.active_primary_shards}</li>
-          </ul>
-        )}
-      </div>
-    </div>
+    <Grid container spacing={3}>
+      <Grid item xs={12} md={6}>
+        <Card>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              <StorageIcon /> Database
+            </Typography>
+            <Typography color={health.database.status === 'connected' ? 'success.main' : 'error.main'}>
+              {health.database.status === 'connected' ? (
+                <CheckCircleOutlineIcon />
+              ) : (
+                <ErrorOutlineIcon />
+              )}
+              {health.database.status}
+            </Typography>
+            <Typography variant="body2">{health.database.details}</Typography>
+          </CardContent>
+        </Card>
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <Card>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              <ElectricalServicesIcon /> Elasticsearch
+            </Typography>
+            <Typography color={health.elasticsearch.status === 'connected' ? 'success.main' : 'error.main'}>
+              {health.elasticsearch.status === 'connected' ? (
+                <CheckCircleOutlineIcon />
+              ) : (
+                <ErrorOutlineIcon />
+              )}
+              {health.elasticsearch.status}
+            </Typography>
+            <Typography variant="body2">Cluster: {health.elasticsearch.details.cluster_name}</Typography>
+            <Typography variant="body2">Status: {health.elasticsearch.details.status}</Typography>
+            <Typography variant="body2">Nodes: {health.elasticsearch.details.number_of_nodes}</Typography>
+            <Typography variant="body2">Active Primary Shards: {health.elasticsearch.details.active_primary_shards}</Typography>
+          </CardContent>
+        </Card>
+      </Grid>
+    </Grid>
   );
 };
 

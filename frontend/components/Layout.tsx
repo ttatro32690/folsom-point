@@ -1,6 +1,6 @@
 import React from 'react';
 import Sidebar from './Sidebar';
-import styles from '@/styles/Layout.module.css';
+import { Box } from '@mui/material';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -8,10 +8,12 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div className={styles.layout}>
+    <Box sx={{ display: 'flex' }}>
       <Sidebar />
-      <main className={styles.main}>{children}</main>
-    </div>
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+        {children}
+      </Box>
+    </Box>
   );
 };
 
