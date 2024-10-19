@@ -1,7 +1,10 @@
 .container {
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 100px); /* Adjust based on your layout */
 }
 
 .title {
@@ -12,18 +15,36 @@
 .form {
   display: flex;
   flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
 .select {
-  margin-bottom: 1rem;
   padding: 0.5rem;
   font-size: 1rem;
+}
+
+.ragLabel {
+  display: flex;
+  align-items: center;
+}
+
+.ragLabel input {
+  margin-right: 0.5rem;
 }
 
 .textarea {
   margin-bottom: 1rem;
   padding: 0.5rem;
   font-size: 1rem;
+  resize: vertical;
+  min-height: 100px;
 }
 
 .button {
@@ -46,9 +67,20 @@
   margin-top: 1rem;
 }
 
+.responseContainer {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* This is important for the flex container to respect the max-height of its children */
+}
+
 .response {
-  margin-top: 1rem;
-  padding: 1rem;
+  flex-grow: 1;
+  overflow-y: auto;
   background-color: #f0f0f0;
   border-radius: 4px;
+  padding: 1rem;
+  margin-top: 0.5rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }

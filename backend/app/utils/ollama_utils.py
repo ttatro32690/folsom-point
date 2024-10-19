@@ -1,5 +1,5 @@
 import os
-from typing import Dict, Any
+from typing import Dict, Any, AsyncGenerator
 from langchain_community.llms import Ollama
 from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
@@ -59,3 +59,20 @@ async def run_llm_chain(prompt_template: PromptTemplate, **kwargs: Any) -> str:
     chain = RunnableSequence(prompt_template | ollama)
     response = await chain.ainvoke(kwargs)
     return response  # RunnableSequence already returns the generated text
+
+async def stream_ollama_response(prompt: str, model: str = "llama2") -> AsyncGenerator[str, None]:
+    """
+    Stream a response from Ollama using the specified model.
+
+    Args:
+        prompt (str): The input prompt for the model.
+        model (str): The name of the Ollama model to use. Defaults to "llama2".
+
+    Yields:
+        str: Chunks of the generated response.
+    """
+    if model != ollama.model:
+        ollama.model = model
+
+    async for chunk in ollama.astream(prompt):
+        yield chunk

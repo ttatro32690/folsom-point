@@ -1,10 +1,11 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from .health.router import router as health_router
 from pydantic import BaseModel
 from typing import Dict, Any, List
 import httpx
-from app.utils.ollama_utils import generate_ollama_response, create_prompt_template, run_llm_chain, OLLAMA_HOST
+from app.utils.ollama_utils import generate_ollama_response, create_prompt_template, run_llm_chain, OLLAMA_HOST, stream_ollama_response
 from app.utils.elasticsearch_utils import (
     index_document, search_documents, create_mock_data,
     get_all_documents, delete_document, update_document
@@ -62,6 +63,13 @@ async def generate_text(request: GenerateRequest):
     try:
         response = await generate_ollama_response(request.prompt, request.model)
         return {"generated_text": response["response"]}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error generating response: {str(e)}")
+
+@app.post("/api/generate/stream")
+async def generate_text_stream(request: GenerateRequest):
+    try:
+        return StreamingResponse(stream_ollama_response(request.prompt, request.model), media_type="text/event-stream")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating response: {str(e)}")
 
@@ -150,6 +158,21 @@ async def rag_generate(request: RAGRequest):
         response = await generate_ollama_response(prompt, request.model)
         
         return {"generated_text": response["response"], "context_used": context_results[:3]}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error in RAG generation: {str(e)}")
+
+@app.post("/api/rag/stream")
+async def rag_generate_stream(request: RAGRequest):
+    try:
+        context_results = await search_documents("context", request.query)
+        
+        if not context_results:
+            return StreamingResponse(stream_ollama_response(request.query, request.model), media_type="text/event-stream")
+        
+        context = "\n".join([hit["_source"]["content"] for hit in context_results[:3]])
+        prompt = f"Context:\n{context}\n\nQuery: {request.query}\n\nResponse:"
+        
+        return StreamingResponse(stream_ollama_response(prompt, request.model), media_type="text/event-stream")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error in RAG generation: {str(e)}")
 
