@@ -7,6 +7,7 @@ from .context.router import router as context_router
 from .search.router import router as search_router
 from .rag.router import router as rag_router
 from .generate.router import router as generate_router
+from .agents.router import router as agent_router
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -33,6 +34,7 @@ app.include_router(context_router, prefix="/api/context", tags=["context"])
 app.include_router(search_router, prefix="/api/search", tags=["search"])
 app.include_router(rag_router, prefix="/api/rag", tags=["rag"])
 app.include_router(generate_router, prefix="/api/generate", tags=["generate"])
+app.include_router(agent_router, prefix="/api/agent", tags=["agent"])
 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):

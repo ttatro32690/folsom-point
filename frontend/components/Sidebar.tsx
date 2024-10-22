@@ -6,6 +6,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import CodeIcon from '@mui/icons-material/Code';
 import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
 import SettingsIcon from '@mui/icons-material/Settings';
+import SmartToyIcon from '@mui/icons-material/SmartToy';  // New import for Agents icon
 
 const Sidebar: React.FC = () => {
   const router = useRouter();
@@ -48,6 +49,12 @@ const Sidebar: React.FC = () => {
             <SettingsIcon />
           </ListItemIcon>
           <ListItemText primary="Context Management" />
+        </ListItem>
+        <ListItem button component={Link} href="/agents" selected={isActive('/agents')}>
+          <ListItemIcon>
+            <SmartToyIcon />
+          </ListItemIcon>
+          <ListItemText primary="Agents" />
         </ListItem>
       </List>
     </Drawer>
