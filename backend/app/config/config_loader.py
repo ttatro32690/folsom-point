@@ -46,6 +46,9 @@ class ConfigLoader:
             # Security Configuration
             "SECRET_KEY": os.getenv("SECRET_KEY", "your-secret-key"),
             "CORS_ORIGINS": os.getenv("CORS_ORIGINS", "http://localhost:3000").split(","),
+            
+            # GitHub Configuration
+            "GITHUB_ACCESS_TOKEN": os.getenv("GITHUB_ACCESS_TOKEN"),
         }
         
         # Validate required configuration
