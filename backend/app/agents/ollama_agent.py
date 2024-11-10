@@ -3,7 +3,7 @@ from .base_agent import BaseAgent
 from ..utils.ollama_utils import generate_ollama_response, stream_ollama_response
 from .tools.search_tool import SearchTool
 from langchain.agents import initialize_agent, AgentType
-from langchain.chat_models import ChatOllama
+from langchain_community.chat_models import ChatOllama
 from langchain.memory import ConversationBufferMemory
 
 class OllamaAgent(BaseAgent):

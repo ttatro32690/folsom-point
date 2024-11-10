@@ -8,6 +8,7 @@ from .search.router import router as search_router
 from .rag.router import router as rag_router
 from .generate.router import router as generate_router
 from .agents.router import router as agent_router
+from .integrations.router import router as integration_router
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -35,6 +36,7 @@ app.include_router(search_router, prefix="/api/search", tags=["search"])
 app.include_router(rag_router, prefix="/api/rag", tags=["rag"])
 app.include_router(generate_router, prefix="/api/generate", tags=["generate"])
 app.include_router(agent_router, prefix="/api/agent", tags=["agent"])
+app.include_router(integration_router, prefix="/api/integrations", tags=["integrations"])
 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
